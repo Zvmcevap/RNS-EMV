@@ -1,0 +1,120 @@
+.dashboard {
+    padding: 24px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-radius: 24px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.06);
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+h1 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 1.8rem;
+}
+
+.subtitle {
+    margin: 0;
+    color: #64748b;
+    max-width: 620px;
+}
+
+.hero-badge {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    display: block;
+    text-decoration: none;
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #f1f5f9;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.16);
+}
+
+.card[data-accent='blue'] {
+    border-top: 4px solid #2563eb;
+}
+
+.card[data-accent='purple'] {
+    border-top: 4px solid #7c3aed;
+}
+
+.card[data-accent='green'] {
+    border-top: 4px solid #16a34a;
+}
+
+.card[data-accent='teal'] {
+    border-top: 4px solid #0f766e;
+}
+
+.card[data-accent='amber'] {
+    border-top: 4px solid #d97706;
+}
+
+.card[data-accent='rose'] {
+    border-top: 4px solid #e11d48;
+}
+
+.icon {
+    font-size: 2.3rem;
+    margin-bottom: 12px;
+}
+
+.card-content h3 {
+    margin: 0 0 6px;
+    color: #0f172a;
+}
+
+.card-content h2 {
+    margin: 0 0 6px;
+    color: #111827;
+    font-size: 1.8rem;
+}
+
+.card-content span {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

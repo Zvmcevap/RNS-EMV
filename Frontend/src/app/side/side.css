@@ -1,0 +1,35 @@
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#1976d2;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    box-shadow:2px 0 10px rgba(0,0,0,.15);
+}
+
+.profile{
+    text-align:center;
+    padding:30px 20px;
+    border-bottom:1px solid rgba(255,255,255,.2);
+}
+
+.profile img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+    border:3px solid white;
+}
+
+.profile h3{
+    margin:0;
+    font-size:20px;
+}
+
+.profile p{
+    margin-top:8px;
+    font-size:14px;
+    opacity:.8;
+}

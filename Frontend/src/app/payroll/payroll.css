@@ -1,0 +1,42 @@
+.page{
+    padding:25px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#1976d2;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f4f4f4;
+}
+
+.loading{
+    text-align:center;
+    padding:20px;
+}
+
+.error{
+    color:red;
+    text-align:center;
+    padding:20px;
+}

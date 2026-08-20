@@ -1,0 +1,26 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { PayrollComponent } from './payroll';
+
+describe('PayrollComponent', () => {
+
+  let component: PayrollComponent;
+  let fixture: ComponentFixture<PayrollComponent>;
+
+  beforeEach(async () => {
+
+    await TestBed.configureTestingModule({
+      imports: [PayrollComponent]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(PayrollComponent);
+    component = fixture.componentInstance;
+
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+});

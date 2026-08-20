@@ -1,0 +1,50 @@
+<div class="page">
+
+    <div class="header">
+        <h2>Performance Reviews</h2>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        Loading...
+    </div>
+
+    <div *ngIf="error" class="error">
+        {{ error }}
+    </div>
+
+    <table *ngIf="!loading && performances.length">
+
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Rating</th>
+                <th>Review Date</th>
+                <th>Reviewer</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let performance of performances">
+
+                <td>
+                    {{ performance.employee?.firstName }}
+                    {{ performance.employee?.lastName }}
+                </td>
+
+                <td>{{ performance.score }}</td>
+
+                <td>{{ performance.reviewDate | date }}</td>
+
+                <td>{{ performance.reviewer }}</td>
+
+                <td>{{ performance.comments }}</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>

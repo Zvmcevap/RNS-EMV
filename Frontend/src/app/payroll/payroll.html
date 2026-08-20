@@ -1,0 +1,51 @@
+<div class="page">
+
+    <div class="header">
+        <h2>Payroll</h2>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        Loading...
+    </div>
+
+    <div *ngIf="error" class="error">
+        {{ error }}
+    </div>
+
+    <table *ngIf="!loading && payrolls.length">
+
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Basic Salary</th>
+                <th>Bonus</th>
+                <th>Deductions</th>
+                <th>Net Salary</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let payroll of payrolls">
+
+                <td>
+                    {{ payroll.employee?.firstName }}
+                    {{ payroll.employee?.lastName }}
+                </td>
+
+                <td>{{ payroll.basicSalary }}</td>
+
+                <td>{{ payroll.bonus }}</td>
+
+                <td>{{ payroll.deductions }}</td>
+
+                <td>{{ payroll.totalSalary }}</td>
+
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>

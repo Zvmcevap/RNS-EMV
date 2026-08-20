@@ -1,0 +1,99 @@
+<div class="form-container">
+  <div class="header">
+    <h2>{{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}</h2>
+    <a routerLink="/employees" class="btn-back">Back to List</a>
+  </div>
+
+  @if (loading && isEditMode) {
+    <p class="loading-text">Loading employee data...</p>
+  } @else {
+    <form (ngSubmit)="onSubmit()" #employeeForm="ngForm" class="employee-form">
+      
+      <!-- Name Row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" name="firstName" [(ngModel)]="employee.firstName" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" name="lastName" [(ngModel)]="employee.lastName" required>
+        </div>
+      </div>
+
+      <!-- Contact Row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" [(ngModel)]="employee.email" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text" name="phone" [(ngModel)]="employee.phone">
+        </div>
+      </div>
+
+      <!-- Position Row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Department</label>
+          <input type="text" name="department" [(ngModel)]="employee.department" required>
+        </div>
+        <div class="form-group">
+          <label>Job Title</label>
+          <input type="text" name="jobTitle" [(ngModel)]="employee.jobTitle" required>
+        </div>
+      </div>
+
+      <!-- Admin Row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Hire Date</label>
+          <input type="date" name="hireDate" [(ngModel)]="employee.hireDate" required>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select name="status" [(ngModel)]="employee.status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- File Upload, Salary, and Preview Row -->
+      <div class="form-row align-items-center">
+        <div class="form-group">
+          <label>Employee Photo</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input">
+        </div>
+
+        <div class="form-group">
+          <label>Salary ($)</label>
+          <input 
+            type="number" 
+            name="salary" 
+            [(ngModel)]="employee.salary" 
+            required
+            placeholder="Enter salary"
+          >
+        </div>
+        
+        <div class="form-group preview-container">
+          @if (imagePreview) {
+            <div class="form-image-preview">
+              <p class="preview-label">Photo Preview:</p>
+              <img [src]="imagePreview" alt="Preview Image" class="preview-img">
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="!employeeForm.valid || loading">
+          {{ loading ? 'Saving...' : 'Save Employee' }}
+        </button>
+      </div>
+
+    </form>
+  }
+</div>

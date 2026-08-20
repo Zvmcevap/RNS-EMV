@@ -1,0 +1,55 @@
+<div class="page">
+
+    <div class="header">
+        <h2>Users</h2>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        Loading...
+    </div>
+
+    <div *ngIf="error" class="error">
+        {{ error }}
+    </div>
+
+    <table *ngIf="!loading && users.length">
+
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let user of users">
+
+                <td>
+                    <img
+                        [src]="user.imageURL"
+                        [alt]="user.firstName"
+                        class="avatar">
+                </td>
+
+                <td>
+                    {{ user.firstName }}
+                    {{ user.lastName }}
+                </td>
+
+                <td>{{ user.email }}</td>
+
+                <td>{{ user.phone }}</td>
+
+                <td>{{ user.role }}</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>

@@ -1,0 +1,21 @@
+<div class="dashboard">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">HR Intelligence</p>
+            <h1>Welcome back</h1>
+            <p class="subtitle">Track people, performance, payroll, and attendance from one elegant workspace.</p>
+        </div>
+        <div class="hero-badge">Live overview</div>
+    </section>
+
+    <div class="cards">
+        <a class="card" *ngFor="let card of cards" [routerLink]="card.route" [attr.data-accent]="card.accent">
+            <div class="icon">{{card.icon}}</div>
+            <div class="card-content">
+                <h3>{{card.title}}</h3>
+                <h2>{{card.value}}</h2>
+                <span>Open module</span>
+            </div>
+        </a>
+    </div>
+</div>

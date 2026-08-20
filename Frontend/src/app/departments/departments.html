@@ -1,0 +1,82 @@
+<div class="page">
+
+    <div class="header">
+
+        <h2>Departments</h2>
+
+        <button routerLink="/departments/add">
+            Add Department
+        </button>
+
+    </div>
+
+    @if(loading){
+
+        <p>Loading...</p>
+
+    }
+
+    @if(error){
+
+        <p class="error">{{error}}</p>
+
+    }
+
+    @if(!loading){
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+                <th>Description</th>
+                <th>Manager</th>
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @for(department of departments; track department._id){
+
+            <tr>
+
+                <td>{{department.name}}</td>
+
+                <td>{{department.description}}</td>
+
+                <td>{{department.manager}}</td>
+
+                <td>
+
+                    <button
+                        [routerLink]="['/departments/edit', department._id]">
+
+                        Edit
+
+                    </button>
+
+                    <button
+                        (click)="deleteDepartment(department._id)">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+
+    }
+
+</div>

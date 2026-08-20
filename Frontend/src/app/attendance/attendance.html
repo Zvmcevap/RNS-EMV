@@ -1,0 +1,82 @@
+<div class="page">
+
+    <section class="hero-card">
+        <div class="hero-content">
+            <div>
+                <p class="eyebrow">People operations</p>
+                <h2>Attendance Overview</h2>
+                <p class="subtitle">Monitor daily check-ins, check-outs, and attendance status in one place.</p>
+            </div>
+
+            <button class="primary-btn" routerLink="/attendance/add">
+                + Add Attendance
+            </button>
+        </div>
+    </section>
+
+    <section class="table-card">
+        @if(loading){
+            <div class="loading-state">Loading attendance records...</div>
+        }
+
+        @if(error){
+            <p class="error">{{ error }}</p>
+        }
+
+        @if(!loading && attendances.length === 0){
+            <div class="empty-state">No attendance records found yet.</div>
+        }
+
+        @if(!loading && attendances.length > 0){
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Date</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for(attendance of attendances; track attendance._id){
+                            <tr>
+                                <td class="employee-cell">
+                                    <div class="employee-name">
+                                        {{attendance.employee.firstName}}
+                                        {{attendance.employee.lastName}}
+                                    </div>
+                                </td>
+                                <td>{{attendance.date | date}}</td>
+                                <td>{{attendance.checkIn}}</td>
+                                <td>{{attendance.checkOut}}</td>
+                                <td>
+                                    <span class="status-badge"
+                                          [class.present]="attendance.status === 'present'"
+                                          [class.late]="attendance.status === 'late'"
+                                          [class.absent]="attendance.status === 'absent'">
+                                        {{attendance.status}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-group">
+                                        <button class="ghost-btn" [routerLink]="['/attendance/edit', attendance._id]">
+                                            Edit
+                                        </button>
+                                        <button class="danger-btn" (click)="deleteAttendance(attendance._id)">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+
+</div>

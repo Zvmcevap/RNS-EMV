@@ -1,0 +1,22 @@
+[
+  {
+    "_id": "dept-1",
+    "name": "it",
+    "description": "Information Technology"
+  },
+  {
+    "_id": "dept-2",
+    "name": "hr",
+    "description": "Human Resources"
+  },
+  {
+    "_id": "dept-3",
+    "name": "finance",
+    "description": "Finance and Accounting"
+  },
+  {
+    "_id": "dept-4",
+    "name": "management",
+    "description": "Management"
+  }
+]

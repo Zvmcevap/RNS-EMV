@@ -1,0 +1,12 @@
+const path = require("path");
+const fs = require("fs").promises;
+
+function deleteUploadedFile(foldername, filename) {
+    const filePath = path.join(__dirname, "..", "uploads", foldername, filename);
+
+    fs.unlink(filePath).catch((err) => {
+        console.log(`Error in deleting file: ${err}`);
+    });
+}
+
+module.exports = deleteUploadedFile;

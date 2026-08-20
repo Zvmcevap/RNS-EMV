@@ -1,0 +1,67 @@
+[
+  {
+    "_id": "emp-1",
+    "firstName": "Rana",
+    "lastName": "Tarek",
+    "email": "rana@example.com",
+    "phone": "01012345678",
+    "jobTitle": "Backend Developer",
+    "department": "IT",
+    "salary": 15000,
+    "hireDate": "2025-01-01",
+    "status": "active",
+    "imageURL": "uploads/employees/default.jpg"
+  },
+  {
+    "_id": "emp-2",
+    "firstName": "Ahmed",
+    "lastName": "Ali",
+    "email": "ahmed@example.com",
+    "phone": "01098765432",
+    "jobTitle": "Frontend Developer",
+    "department": "IT",
+    "salary": 13000,
+    "hireDate": "2024-10-15",
+    "status": "active",
+    "imageURL": "uploads/employees/default.jpg"
+  },
+  {
+    "_id": "emp-3",
+    "firstName": "Sara",
+    "lastName": "Mohamed",
+    "email": "sara@example.com",
+    "phone": "01112345678",
+    "jobTitle": "HR Specialist",
+    "department": "HR",
+    "salary": 10000,
+    "hireDate": "2023-08-20",
+    "status": "active",
+    "imageURL": "uploads/employees/default.jpg"
+  },
+  {
+    "_id": "emp-4",
+    "firstName": "Omar",
+    "lastName": "Hassan",
+    "email": "omar@example.com",
+    "phone": "01234567890",
+    "jobTitle": "Accountant",
+    "department": "Finance",
+    "salary": 12000,
+    "hireDate": "2022-05-10",
+    "status": "active",
+    "imageURL": "uploads/employees/default.jpg"
+  },
+  {
+    "_id": "emp-5",
+    "firstName": "Mona",
+    "lastName": "Ibrahim",
+    "email": "mona@example.com",
+    "phone": "01555555555",
+    "jobTitle": "Project Manager",
+    "department": "Management",
+    "salary": 22000,
+    "hireDate": "2021-03-01",
+    "status": "active",
+    "imageURL": "uploads/employees/default.jpg"
+  }
+]

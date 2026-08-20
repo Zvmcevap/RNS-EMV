@@ -1,0 +1,58 @@
+<div class="employees-page">
+
+  <div class="header">
+    <div>
+      <h1>Employees</h1>
+      <p>Manage all employees in your organization</p>
+    </div>
+
+    @if (isAdmin) {
+      <button class="add-btn" routerLink="/employees/add">
+        + Add Employee
+      </button>
+    }
+
+  </div>
+
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Search employees..."
+      [(ngModel)]="searchText"
+      (input)="search()">
+  </div>
+
+  @if (loading) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading Employees...</p>
+    </div>
+  }
+
+  @else if (error) {
+    <div class="error">
+      {{ error }}
+    </div>
+  }
+
+  @else if (filteredEmployees.length > 0) {
+    <div class="employee-grid">
+      @for (employee of filteredEmployees; track employee._id) {
+        
+        <app-employee-card
+          [employee]="employee"
+          [isAdmin]="isAdmin"
+          (deleteEmployee)="deleteEmployee($event)">
+        </app-employee-card>
+
+      }
+    </div>
+  }
+
+  @else {
+    <div class="empty">
+      <h2>No Employees Found</h2>
+    </div>
+  }
+
+</div>

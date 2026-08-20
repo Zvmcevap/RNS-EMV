@@ -1,0 +1,52 @@
+<div class="page">
+
+    <div class="header">
+        <h2>Notifications</h2>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        Loading...
+    </div>
+
+    <div *ngIf="error" class="error">
+        {{ error }}
+    </div>
+
+    <table *ngIf="!loading && notifications.length">
+
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Title</th>
+                <th>Message</th>
+                <th>Created At</th>
+                <th>Read</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let notification of notifications">
+
+                <td>
+                    {{ notification.employee?.firstName }}
+                    {{ notification.employee?.lastName }}
+                </td>
+
+                <td>{{ notification.title }}</td>
+
+                <td>{{ notification.message }}</td>
+
+                <td>{{ notification.createdAt | date:'medium' }}</td>
+
+                <td>
+                    {{ notification.isRead ? 'Yes' : 'No' }}
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
