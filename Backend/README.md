@@ -1,6 +1,6 @@
 # Employee Management System
 
-A RESTful API built with **Node.js**, **Express.js**, **MongoDB (Mongoose)**, **JWT**, **bcryptjs**, and **Multer** for managing employees and HR operations.
+A RESTful API built with **Node.js**, **Express.js**, **JWT**, **bcryptjs**, and **Multer** for managing employees and HR operations.
 
 ---
 
@@ -43,7 +43,6 @@ The Employee module has been enhanced with professional backend features includi
 - Sorting (ascending & descending)
 - Default sorting by newest employees
 - Upload employee profile images using Multer
-- Store uploaded image filename in MongoDB
 - Serve uploaded images as static files
 
 ---
@@ -306,7 +305,6 @@ Examples include:
 
 ## Get Employee by ID
 
-Retrieve a single employee using its MongoDB ID.
 
 ---
 

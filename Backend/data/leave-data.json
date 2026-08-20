@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "_id": "leave-1",
+    "employee": "emp-1",
+    "leaveType": "annual",
+    "startDate": "2026-08-24",
+    "endDate": "2026-08-28",
+    "reason": "Summer vacation",
+    "status": "approved"
+  },
+  {
+    "_id": "leave-2",
+    "employee": "emp-2",
+    "leaveType": "sick",
+    "startDate": "2026-08-20",
+    "endDate": "2026-08-21",
+    "reason": "Medical recovery",
+    "status": "approved"
+  },
+  {
+    "_id": "leave-3",
+    "employee": "emp-3",
+    "leaveType": "annual",
+    "startDate": "2026-09-07",
+    "endDate": "2026-09-11",
+    "reason": "Planned personal leave",
+    "status": "pending"
+  },
+  {
+    "_id": "leave-4",
+    "employee": "emp-4",
+    "leaveType": "unpaid",
+    "startDate": "2026-09-14",
+    "endDate": "2026-09-16",
+    "reason": "Personal obligations",
+    "status": "rejected"
+  },
+  {
+    "_id": "leave-5",
+    "employee": "emp-5",
+    "leaveType": "maternity",
+    "startDate": "2026-10-01",
+    "endDate": "2026-12-31",
+    "reason": "Maternity leave",
+    "status": "approved"
+  }
+]

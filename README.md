@@ -2,7 +2,7 @@
 
 A modern **full-stack Employee Management System** that streamlines HR operations by providing secure employee management, authentication, profile handling, and responsive dashboards.
 
-Built with **Angular (SSR)**, **Node.js**, **Express.js**, and **MongoDB**, the application focuses on performance, scalability, and clean architecture.
+Built with **Angular (SSR)**, **Node.js**, **Express.js** the application focuses on performance, scalability, and clean architecture.
 
 ---
 
@@ -61,7 +61,6 @@ Built with **Angular (SSR)**, **Node.js**, **Express.js**, and **MongoDB**, the 
 
 #### Backend
 
-* Mongoose schema validation
 * Duplicate email detection
 * Request validation
 * Centralized error handling
@@ -95,8 +94,6 @@ Built with **Angular (SSR)**, **Node.js**, **Express.js**, and **MongoDB**, the 
 
 * Node.js
 * Express.js
-* MongoDB
-* Mongoose ODM
 * Multer
 * JSON Web Tokens (JWT)
 * bcrypt
@@ -168,7 +165,6 @@ Make sure you have installed:
 
 * Node.js
 * npm
-* MongoDB (Local or Atlas)
 * Angular CLI
 
 ---
@@ -195,8 +191,6 @@ Create a `.env` file:
 
 ```env
 PORT=5000
-
-MONGO_URI=your_mongodb_connection_string
 
 JWT_SECRET=your_secret_key
 ```

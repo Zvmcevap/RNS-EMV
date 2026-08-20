@@ -3,7 +3,7 @@
     "_id": "attendance-1",
     "employee": "emp-1",
     "date": "2026-08-18",
-    "checkIn": "08:02",
+    "checkIn": "08:00",
     "checkOut": "16:05",
     "status": "present"
   },
@@ -11,7 +11,7 @@
     "_id": "attendance-2",
     "employee": "emp-2",
     "date": "2026-08-18",
-    "checkIn": "08:20",
+    "checkIn": "08:25",
     "checkOut": "16:10",
     "status": "late"
   },
@@ -20,7 +20,23 @@
     "employee": "emp-3",
     "date": "2026-08-18",
     "checkIn": "07:55",
-    "checkOut": "15:58",
+    "checkOut": "15:50",
     "status": "present"
+  },
+  {
+    "_id": "attendance-4",
+    "employee": "emp-4",
+    "date": "2026-08-18",
+    "checkIn": "00:00",
+    "checkOut": "00:00",
+    "status": "absent"
+  },
+  {
+    "_id": "attendance-5",
+    "employee": "emp-5",
+    "date": "2026-08-18",
+    "checkIn": "00:00",
+    "checkOut": "00:00",
+    "status": "leave"
   }
 ]

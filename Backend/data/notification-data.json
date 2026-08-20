@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "_id": "notification-1",
+    "employee": "emp-1",
+    "title": "Company Meeting",
+    "message": "All employees are invited to the monthly company meeting.",
+    "type": "announcement",
+    "isRead": false
+  },
+  {
+    "_id": "notification-2",
+    "employee": "emp-2",
+    "title": "Attendance Notice",
+    "message": "Your late arrival on August 18 has been recorded.",
+    "type": "attendance",
+    "isRead": true
+  },
+  {
+    "_id": "notification-3",
+    "employee": "emp-3",
+    "title": "Leave Request Update",
+    "message": "Your annual leave request is still pending approval.",
+    "type": "leave",
+    "isRead": false
+  },
+  {
+    "_id": "notification-4",
+    "employee": "emp-4",
+    "title": "Payroll Processed",
+    "message": "Your payroll for August has been processed successfully.",
+    "type": "payroll",
+    "isRead": true
+  },
+  {
+    "_id": "notification-5",
+    "employee": "emp-5",
+    "title": "Performance Review",
+    "message": "Your latest performance review is now available.",
+    "type": "performance",
+    "isRead": false
+  }
+]

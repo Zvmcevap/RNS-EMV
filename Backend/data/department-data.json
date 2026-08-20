@@ -2,21 +2,33 @@
   {
     "_id": "dept-1",
     "name": "it",
-    "description": "Information Technology"
+    "description": "Information Technology and software systems",
+    "manager": "Rana Tarek",
+    "location": "Building A",
+    "employeesCount": 2
   },
   {
     "_id": "dept-2",
     "name": "hr",
-    "description": "Human Resources"
+    "description": "Human Resources and employee relations",
+    "manager": "Sara Mohamed",
+    "location": "Building B",
+    "employeesCount": 1
   },
   {
     "_id": "dept-3",
     "name": "finance",
-    "description": "Finance and Accounting"
+    "description": "Finance, accounting and company budgeting",
+    "manager": "Omar Hassan",
+    "location": "Building A",
+    "employeesCount": 1
   },
   {
     "_id": "dept-4",
     "name": "management",
-    "description": "Management"
+    "description": "Project coordination and company management",
+    "manager": "Mona Ibrahim",
+    "location": "Building C",
+    "employeesCount": 1
   }
 ]

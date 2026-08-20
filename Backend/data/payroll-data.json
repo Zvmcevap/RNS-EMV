@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "_id": "payroll-1",
+    "employee": "emp-1",
+    "month": 8,
+    "year": 2026,
+    "basicSalary": 15000,
+    "bonus": 1500,
+    "deductions": 300,
+    "totalSalary": 16200
+  },
+  {
+    "_id": "payroll-2",
+    "employee": "emp-2",
+    "month": 8,
+    "year": 2026,
+    "basicSalary": 13000,
+    "bonus": 800,
+    "deductions": 200,
+    "totalSalary": 13600
+  },
+  {
+    "_id": "payroll-3",
+    "employee": "emp-3",
+    "month": 8,
+    "year": 2026,
+    "basicSalary": 10000,
+    "bonus": 500,
+    "deductions": 150,
+    "totalSalary": 10350
+  },
+  {
+    "_id": "payroll-4",
+    "employee": "emp-4",
+    "month": 8,
+    "year": 2026,
+    "basicSalary": 12000,
+    "bonus": 750,
+    "deductions": 250,
+    "totalSalary": 12500
+  },
+  {
+    "_id": "payroll-5",
+    "employee": "emp-5",
+    "month": 8,
+    "year": 2026,
+    "basicSalary": 22000,
+    "bonus": 2500,
+    "deductions": 500,
+    "totalSalary": 24000
+  }
+]

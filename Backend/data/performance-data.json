@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "_id": "performance-1",
+    "employee": "emp-1",
+    "reviewDate": "2026-07-15",
+    "reviewer": "Mona Ibrahim",
+    "score": 4.7,
+    "goals": "Improve backend test coverage and document internal APIs.",
+    "comments": "Strong technical performance and reliable delivery."
+  },
+  {
+    "_id": "performance-2",
+    "employee": "emp-2",
+    "reviewDate": "2026-07-16",
+    "reviewer": "Mona Ibrahim",
+    "score": 4.4,
+    "goals": "Improve frontend accessibility and component reuse.",
+    "comments": "Good progress on Angular features and UI consistency."
+  },
+  {
+    "_id": "performance-3",
+    "employee": "emp-3",
+    "reviewDate": "2026-07-17",
+    "reviewer": "Mona Ibrahim",
+    "score": 4.2,
+    "goals": "Streamline onboarding and employee documentation.",
+    "comments": "Consistent HR support and good communication."
+  },
+  {
+    "_id": "performance-4",
+    "employee": "emp-4",
+    "reviewDate": "2026-07-18",
+    "reviewer": "Mona Ibrahim",
+    "score": 4.0,
+    "goals": "Reduce monthly reconciliation time and reporting errors.",
+    "comments": "Accurate work with room to improve processing speed."
+  },
+  {
+    "_id": "performance-5",
+    "employee": "emp-5",
+    "reviewDate": "2026-07-19",
+    "reviewer": "Admin User",
+    "score": 4.8,
+    "goals": "Improve project planning visibility across departments.",
+    "comments": "Excellent coordination and strong leadership."
+  }
+]
