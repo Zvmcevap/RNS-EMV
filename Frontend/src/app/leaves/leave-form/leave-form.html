@@ -1,0 +1,122 @@
+<div class="form-container">
+  <div class="header">
+    <h2>
+      {{ isEditMode ? 'Edit Leave' : 'Add Leave' }}
+    </h2>
+
+    <a routerLink="/leaves" class="btn-back">
+      Back to List
+    </a>
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (loading && isEditMode) {
+    <p class="loading-text">Loading leave request...</p>
+  } @else {
+    <form
+      (ngSubmit)="onSubmit()"
+      #leaveForm="ngForm"
+      class="record-form"
+    >
+      <div class="form-row">
+        <div class="form-group">
+          <label>Employee</label>
+
+          <select
+            name="employee"
+            [(ngModel)]="leave.employee"
+            required
+          >
+            <option value="" disabled>
+              Select employee
+            </option>
+
+            @for (employee of employees; track employee._id) {
+              <option [value]="employee._id">
+                {{ employee.firstName }}
+                {{ employee.lastName }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Leave Type</label>
+
+          <select
+            name="leaveType"
+            [(ngModel)]="leave.leaveType"
+            required
+          >
+            <option value="annual">Annual</option>
+            <option value="sick">Sick</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="maternity">Maternity</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date</label>
+
+          <input
+            type="date"
+            name="startDate"
+            [(ngModel)]="leave.startDate"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>End Date</label>
+
+          <input
+            type="date"
+            name="endDate"
+            [(ngModel)]="leave.endDate"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Reason</label>
+
+        <textarea
+          name="reason"
+          [(ngModel)]="leave.reason"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+
+        <select
+          name="status"
+          [(ngModel)]="leave.status"
+          required
+        >
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="!leaveForm.valid || loading"
+        >
+          {{ loading ? 'Saving...' : 'Save Leave' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

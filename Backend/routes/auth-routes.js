@@ -6,17 +6,6 @@ const path = require('path');
 const multerUpload = require('../middlewares/multer-middleware');
 const router = express.Router();
 
-        // const storage = multer.diskStorage({
-        //   destination: function (req, file, cb) {
-        //     cb(null, 'uploads/users/');
-        //   },
-        //   filename: function (req, file, cb) {
-        //     cb(null, Date.now() + '-' + file.originalname);
-        //   }
-        // });
-
-        // const upload = multer({ storage: storage });
-
 router.post('/signup', multerUpload.single('imageURL'), authController.signup);
 router.post('/register', multerUpload.single('imageURL'), authController.signup);
 router.post('/signin', authController.signin);

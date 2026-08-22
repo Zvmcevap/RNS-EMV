@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { API_URL } from './api.config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LeaveService {
   private http = inject(HttpClient);

@@ -1,0 +1,61 @@
+<div class="form-container">
+  <div class="header">
+    <h2>
+      {{ isEditMode ? 'Edit Department' : 'Add Department' }}
+    </h2>
+
+    <a routerLink="/departments" class="btn-back"> Back to List </a>
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (loading && isEditMode) {
+    <p class="loading-text">Loading department...</p>
+  } @else {
+    <form (ngSubmit)="onSubmit()" #departmentForm="ngForm" class="record-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="name" [(ngModel)]="department.name" required />
+        </div>
+
+        <div class="form-group">
+          <label>Manager</label>
+          <input type="text" name="manager" [(ngModel)]="department.manager" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" name="location" [(ngModel)]="department.location" required />
+        </div>
+
+        <div class="form-group">
+          <label>Employee Count</label>
+          <input
+            type="number"
+            name="employeesCount"
+            [(ngModel)]="department.employeesCount"
+            min="0"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+
+        <textarea name="description" [(ngModel)]="department.description" rows="4"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="!departmentForm.valid || loading">
+          {{ loading ? 'Saving...' : 'Save Department' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

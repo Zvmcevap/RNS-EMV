@@ -1,0 +1,131 @@
+<div class="form-container">
+  <div class="header">
+    <h2>
+      {{ isEditMode ? 'Edit Payroll' : 'Add Payroll' }}
+    </h2>
+
+    <a routerLink="/payroll" class="btn-back">
+      Back to List
+    </a>
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (loading && isEditMode) {
+    <p class="loading-text">Loading payroll...</p>
+  } @else {
+    <form
+      (ngSubmit)="onSubmit()"
+      #payrollForm="ngForm"
+      class="record-form"
+    >
+      <div class="form-group">
+        <label>Employee</label>
+
+        <select
+          name="employee"
+          [(ngModel)]="payroll.employee"
+          required
+        >
+          <option value="" disabled>
+            Select employee
+          </option>
+
+          @for (employee of employees; track employee._id) {
+            <option [value]="employee._id">
+              {{ employee.firstName }}
+              {{ employee.lastName }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Month</label>
+
+          <input
+            type="number"
+            name="month"
+            [(ngModel)]="payroll.month"
+            min="1"
+            max="12"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Year</label>
+
+          <input
+            type="number"
+            name="year"
+            [(ngModel)]="payroll.year"
+            min="2000"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Basic Salary</label>
+
+          <input
+            type="number"
+            name="basicSalary"
+            [(ngModel)]="payroll.basicSalary"
+            min="0"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Bonus</label>
+
+          <input
+            type="number"
+            name="bonus"
+            [(ngModel)]="payroll.bonus"
+            min="0"
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Deductions</label>
+
+          <input
+            type="number"
+            name="deductions"
+            [(ngModel)]="payroll.deductions"
+            min="0"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Total Salary</label>
+
+          <input
+            type="number"
+            [value]="calculatedTotal"
+            readonly
+          >
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="!payrollForm.valid || loading"
+        >
+          {{ loading ? 'Saving...' : 'Save Payroll' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

@@ -1,0 +1,108 @@
+<div class="form-container">
+  <div class="header">
+    <h2>
+      {{ isEditMode ? 'Edit Attendance' : 'Add Attendance' }}
+    </h2>
+
+    <a routerLink="/attendance" class="btn-back">
+      Back to List
+    </a>
+  </div>
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (loading && isEditMode) {
+    <p class="loading-text">Loading attendance...</p>
+  } @else {
+    <form
+      (ngSubmit)="onSubmit()"
+      #attendanceForm="ngForm"
+      class="record-form"
+    >
+      <div class="form-row">
+        <div class="form-group">
+          <label>Employee</label>
+
+          <select
+            name="employee"
+            [(ngModel)]="attendance.employee"
+            required
+          >
+            <option value="" disabled>
+              Select employee
+            </option>
+
+            @for (employee of employees; track employee._id) {
+              <option [value]="employee._id">
+                {{ employee.firstName }}
+                {{ employee.lastName }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+
+          <input
+            type="date"
+            name="date"
+            [(ngModel)]="attendance.date"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Check In</label>
+
+          <input
+            type="time"
+            name="checkIn"
+            [(ngModel)]="attendance.checkIn"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Check Out</label>
+
+          <input
+            type="time"
+            name="checkOut"
+            [(ngModel)]="attendance.checkOut"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+
+        <select
+          name="status"
+          [(ngModel)]="attendance.status"
+          required
+        >
+          <option value="present">Present</option>
+          <option value="late">Late</option>
+          <option value="absent">Absent</option>
+          <option value="leave">Leave</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="!attendanceForm.valid || loading"
+        >
+          {{ loading ? 'Saving...' : 'Save Attendance' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

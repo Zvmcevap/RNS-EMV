@@ -24,7 +24,7 @@ export class LeaveService {
   }
 
   updateLeave(id: string, data: any): Observable<any> {
-    return this.http.put(`${this.api}/${id}`, data);
+    return this.http.patch(`${this.api}/${id}`, data);
   }
 
   deleteLeave(id: string): Observable<any> {
