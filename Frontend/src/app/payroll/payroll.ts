@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PayrollService } from '../services/payroll.service';
 import { Payroll } from '../models/payroll';
@@ -11,7 +11,7 @@ import { Payroll } from '../models/payroll';
   styleUrls: ['./payroll.css']
 })
 export class PayrollComponent implements OnInit {
-
+  private cdr = inject(ChangeDetectorRef);
   private payrollService = inject(PayrollService);
 
   payrolls: Payroll[] = [];
@@ -20,6 +20,7 @@ export class PayrollComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPayrolls();
+    this.cdr.detectChanges();
   }
 
   loadPayrolls(): void {
@@ -29,10 +30,12 @@ export class PayrollComponent implements OnInit {
       next: (response: any) => {
         this.payrolls = response.data.payrolls;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Failed to load payroll records';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

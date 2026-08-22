@@ -4,19 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { EmployeeService } from '../services/employee.service';
-import { EmployeeCardComponent } from './employee-card/employee-card'; 
+import { EmployeeCardComponent } from './employee-card/employee-card';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,  
-    RouterLink,   
-    EmployeeCardComponent 
-  ],
+  imports: [CommonModule, FormsModule, RouterLink, EmployeeCardComponent],
   templateUrl: './employees.html',
-  styleUrls: ['./employees.css']
+  styleUrls: ['./employees.css'],
 })
 export class Employees implements OnInit {
   private employeeService = inject(EmployeeService);
@@ -41,26 +36,34 @@ export class Employees implements OnInit {
       this.isAdmin = false;
       return;
     }
-    
+
     const role = localStorage.getItem('role');
     this.isAdmin = role?.toLowerCase() === 'admin';
   }
 
   loadEmployees(): void {
     this.loading = true;
+    this.error = '';
 
     this.employeeService.getEmployees().subscribe({
-      next: (res: any) => {
+      next: (res) => {
+        console.log('Employees API response:', res);
+
         this.employees = res?.data?.employees ?? [];
         this.filteredEmployees = [...this.employees];
+
         this.loading = false;
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
+
       error: (err) => {
-        console.error('API Error', err);
+        console.error('Employees API error:', err);
+
+        this.error = `Could not load employees: ${err.status || 'network error'}`;
+
         this.loading = false;
-        this.cdr.detectChanges(); 
-      }
+        this.cdr.detectChanges();
+      },
     });
   }
 
@@ -72,16 +75,12 @@ export class Employees implements OnInit {
       return;
     }
 
-    this.filteredEmployees = this.employees.filter(emp => {
+    this.filteredEmployees = this.employees.filter((emp) => {
       const fullName = `${emp.firstName ?? ''} ${emp.lastName ?? ''}`.toLowerCase();
       const department = (emp.department ?? '').toLowerCase();
       const jobTitle = (emp.jobTitle ?? '').toLowerCase();
 
-      return (
-        fullName.includes(value) ||
-        department.includes(value) ||
-        jobTitle.includes(value)
-      );
+      return fullName.includes(value) || department.includes(value) || jobTitle.includes(value);
     });
   }
 
@@ -97,13 +96,13 @@ export class Employees implements OnInit {
 
     this.employeeService.deleteEmployee(id).subscribe({
       next: () => {
-        this.loadEmployees(); 
+        this.loadEmployees();
       },
       error: (err) => {
         console.error(err);
         alert('Failed to delete employee.');
-        this.cdr.detectChanges(); 
-      }
+        this.cdr.detectChanges();
+      },
     });
   }
 }

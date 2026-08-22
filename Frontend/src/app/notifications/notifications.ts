@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NotificationService } from '../services/notification.service';
@@ -9,10 +9,10 @@ import { Notification } from '../models/notification';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './notifications.html',
-  styleUrls: ['./notifications.css']
+  styleUrls: ['./notifications.css'],
 })
 export class NotificationsComponent implements OnInit {
-
+  private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
 
   notifications: Notification[] = [];
@@ -21,6 +21,7 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadNotifications();
+    this.cdr.detectChanges();
   }
 
   loadNotifications(): void {
@@ -30,12 +31,13 @@ export class NotificationsComponent implements OnInit {
       next: (response: any) => {
         this.notifications = response.data.notifications;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Failed to load notifications';
         this.loading = false;
-      }
+        this.cdr.detectChanges();
+      },
     });
   }
-
 }

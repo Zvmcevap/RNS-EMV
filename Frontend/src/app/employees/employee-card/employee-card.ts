@@ -8,11 +8,11 @@ import { API_URL } from '../../services/api.config';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './employee-card.html',
-  styleUrls: ['./employee-card.css']
+  styleUrls: ['./employee-card.css'],
 })
 export class EmployeeCardComponent {
   @Input() employee: any;
-  @Input() isAdmin = false; 
+  @Input() isAdmin = false;
   @Output() deleteEmployee = new EventEmitter<string>();
 
   onDelete(): void {
@@ -21,13 +21,17 @@ export class EmployeeCardComponent {
     }
   }
 
-  getPhotoUrl(photoPath: any): string {
-    if (!photoPath || typeof photoPath !== 'string') return '';
-    
+  getPhotoUrl(photoPath: unknown): string {
+    if (typeof photoPath !== 'string' || !photoPath) {
+      return '';
+    }
+
     if (photoPath.startsWith('http')) {
       return photoPath;
     }
-    
-    return `${API_URL}/uploads/${photoPath}`; 
+
+    const cleanPath = photoPath.replace(/^uploads\/employees\//, '');
+
+    return `${API_URL}/uploads/${cleanPath}`;
   }
 }

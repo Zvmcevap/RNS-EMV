@@ -49,3 +49,12 @@ td{
     color:red;
 
 }
+.ghost-btn {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.danger-btn {
+    background: #fef2f2;
+    color: #dc2626;
+}

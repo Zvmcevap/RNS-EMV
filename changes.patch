@@ -1,0 +1,1192 @@
+diff --git a/Backend/README.md b/Backend/README.md
+index 4292fdd..cbebb40 100644
+--- a/Backend/README.md
++++ b/Backend/README.md
+@@ -1,6 +1,6 @@
+ # Employee Management System
+ 
+-A RESTful API built with **Node.js**, **Express.js**, **MongoDB (Mongoose)**, **JWT**, **bcryptjs**, and **Multer** for managing employees and HR operations.
++A RESTful API built with **Node.js**, **Express.js**, **JWT**, **bcryptjs**, and **Multer** for managing employees and HR operations.
+ 
+ ---
+ 
+@@ -43,7 +43,6 @@ The Employee module has been enhanced with professional backend features includi
+ - Sorting (ascending & descending)
+ - Default sorting by newest employees
+ - Upload employee profile images using Multer
+-- Store uploaded image filename in MongoDB
+ - Serve uploaded images as static files
+ 
+ ---
+@@ -306,7 +305,6 @@ Examples include:
+ 
+ ## Get Employee by ID
+ 
+-Retrieve a single employee using its MongoDB ID.
+ 
+ ---
+ 
+diff --git a/Backend/config/db-connect.js b/Backend/config/db-connect.js
+deleted file mode 100644
+index d65730c..0000000
+--- a/Backend/config/db-connect.js
++++ /dev/null
+@@ -1,16 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const connectDB = async () => {
+-  try {
+-    await mongoose.connect(process.env.MONGODB_URI, {
+-      dbName: process.env.DB_NAME,
+-    });
+-
+-    console.log("Database connected successfully");
+-  } catch (error) {
+-    console.error("Error connecting to MongoDB:", error.message);
+-    process.exit(1);
+-  }
+-};
+-
+-module.exports = connectDB;
+\ No newline at end of file
+diff --git a/Backend/createenv.sh b/Backend/createenv.sh
+index 69f2522..cc7e579 100644
+--- a/Backend/createenv.sh
++++ b/Backend/createenv.sh
+@@ -2,7 +2,6 @@ JWT_SECRET="$(node -e "process.stdout.write(require('crypto').randomBytes(32).to
+ 
+ cat > .env <<EOF
+ PORT=5000
+-MONGODB_URI=mongodb://127.0.0.1:27017
+ DB_NAME=employee_management_system
+ JWT_SECRET=${JWT_SECRET}
+ JWT_EXPIRES_IN=7d
+diff --git a/Backend/data/attendance-data.json b/Backend/data/attendance-data.json
+index 5d39c79..334f741 100644
+--- a/Backend/data/attendance-data.json
++++ b/Backend/data/attendance-data.json
+@@ -3,7 +3,7 @@
+     "_id": "attendance-1",
+     "employee": "emp-1",
+     "date": "2026-08-18",
+-    "checkIn": "08:02",
++    "checkIn": "08:00",
+     "checkOut": "16:05",
+     "status": "present"
+   },
+@@ -11,7 +11,7 @@
+     "_id": "attendance-2",
+     "employee": "emp-2",
+     "date": "2026-08-18",
+-    "checkIn": "08:20",
++    "checkIn": "08:25",
+     "checkOut": "16:10",
+     "status": "late"
+   },
+@@ -20,7 +20,23 @@
+     "employee": "emp-3",
+     "date": "2026-08-18",
+     "checkIn": "07:55",
+-    "checkOut": "15:58",
++    "checkOut": "15:50",
+     "status": "present"
++  },
++  {
++    "_id": "attendance-4",
++    "employee": "emp-4",
++    "date": "2026-08-18",
++    "checkIn": "00:00",
++    "checkOut": "00:00",
++    "status": "absent"
++  },
++  {
++    "_id": "attendance-5",
++    "employee": "emp-5",
++    "date": "2026-08-18",
++    "checkIn": "00:00",
++    "checkOut": "00:00",
++    "status": "leave"
+   }
+-]
++]
+\ No newline at end of file
+diff --git a/Backend/data/department-data.json b/Backend/data/department-data.json
+index 80d675b..116d6e2 100644
+--- a/Backend/data/department-data.json
++++ b/Backend/data/department-data.json
+@@ -2,21 +2,33 @@
+   {
+     "_id": "dept-1",
+     "name": "it",
+-    "description": "Information Technology"
++    "description": "Information Technology and software systems",
++    "manager": "Rana Tarek",
++    "location": "Building A",
++    "employeesCount": 2
+   },
+   {
+     "_id": "dept-2",
+     "name": "hr",
+-    "description": "Human Resources"
++    "description": "Human Resources and employee relations",
++    "manager": "Sara Mohamed",
++    "location": "Building B",
++    "employeesCount": 1
+   },
+   {
+     "_id": "dept-3",
+     "name": "finance",
+-    "description": "Finance and Accounting"
++    "description": "Finance, accounting and company budgeting",
++    "manager": "Omar Hassan",
++    "location": "Building A",
++    "employeesCount": 1
+   },
+   {
+     "_id": "dept-4",
+     "name": "management",
+-    "description": "Management"
++    "description": "Project coordination and company management",
++    "manager": "Mona Ibrahim",
++    "location": "Building C",
++    "employeesCount": 1
+   }
+-]
++]
+\ No newline at end of file
+diff --git a/Backend/data/leave-data.json b/Backend/data/leave-data.json
+index fe51488..3a8d795 100644
+--- a/Backend/data/leave-data.json
++++ b/Backend/data/leave-data.json
+@@ -1 +1,47 @@
+-[]
++[
++  {
++    "_id": "leave-1",
++    "employee": "emp-1",
++    "leaveType": "annual",
++    "startDate": "2026-08-24",
++    "endDate": "2026-08-28",
++    "reason": "Summer vacation",
++    "status": "approved"
++  },
++  {
++    "_id": "leave-2",
++    "employee": "emp-2",
++    "leaveType": "sick",
++    "startDate": "2026-08-20",
++    "endDate": "2026-08-21",
++    "reason": "Medical recovery",
++    "status": "approved"
++  },
++  {
++    "_id": "leave-3",
++    "employee": "emp-3",
++    "leaveType": "annual",
++    "startDate": "2026-09-07",
++    "endDate": "2026-09-11",
++    "reason": "Planned personal leave",
++    "status": "pending"
++  },
++  {
++    "_id": "leave-4",
++    "employee": "emp-4",
++    "leaveType": "unpaid",
++    "startDate": "2026-09-14",
++    "endDate": "2026-09-16",
++    "reason": "Personal obligations",
++    "status": "rejected"
++  },
++  {
++    "_id": "leave-5",
++    "employee": "emp-5",
++    "leaveType": "maternity",
++    "startDate": "2026-10-01",
++    "endDate": "2026-12-31",
++    "reason": "Maternity leave",
++    "status": "approved"
++  }
++]
+\ No newline at end of file
+diff --git a/Backend/data/notification-data.json b/Backend/data/notification-data.json
+index fe51488..81b8c43 100644
+--- a/Backend/data/notification-data.json
++++ b/Backend/data/notification-data.json
+@@ -1 +1,42 @@
+-[]
++[
++  {
++    "_id": "notification-1",
++    "employee": "emp-1",
++    "title": "Company Meeting",
++    "message": "All employees are invited to the monthly company meeting.",
++    "type": "announcement",
++    "isRead": false
++  },
++  {
++    "_id": "notification-2",
++    "employee": "emp-2",
++    "title": "Attendance Notice",
++    "message": "Your late arrival on August 18 has been recorded.",
++    "type": "attendance",
++    "isRead": true
++  },
++  {
++    "_id": "notification-3",
++    "employee": "emp-3",
++    "title": "Leave Request Update",
++    "message": "Your annual leave request is still pending approval.",
++    "type": "leave",
++    "isRead": false
++  },
++  {
++    "_id": "notification-4",
++    "employee": "emp-4",
++    "title": "Payroll Processed",
++    "message": "Your payroll for August has been processed successfully.",
++    "type": "payroll",
++    "isRead": true
++  },
++  {
++    "_id": "notification-5",
++    "employee": "emp-5",
++    "title": "Performance Review",
++    "message": "Your latest performance review is now available.",
++    "type": "performance",
++    "isRead": false
++  }
++]
+\ No newline at end of file
+diff --git a/Backend/data/payroll-data.json b/Backend/data/payroll-data.json
+index fe51488..45a27ca 100644
+--- a/Backend/data/payroll-data.json
++++ b/Backend/data/payroll-data.json
+@@ -1 +1,52 @@
+-[]
++[
++  {
++    "_id": "payroll-1",
++    "employee": "emp-1",
++    "month": 8,
++    "year": 2026,
++    "basicSalary": 15000,
++    "bonus": 1500,
++    "deductions": 300,
++    "totalSalary": 16200
++  },
++  {
++    "_id": "payroll-2",
++    "employee": "emp-2",
++    "month": 8,
++    "year": 2026,
++    "basicSalary": 13000,
++    "bonus": 800,
++    "deductions": 200,
++    "totalSalary": 13600
++  },
++  {
++    "_id": "payroll-3",
++    "employee": "emp-3",
++    "month": 8,
++    "year": 2026,
++    "basicSalary": 10000,
++    "bonus": 500,
++    "deductions": 150,
++    "totalSalary": 10350
++  },
++  {
++    "_id": "payroll-4",
++    "employee": "emp-4",
++    "month": 8,
++    "year": 2026,
++    "basicSalary": 12000,
++    "bonus": 750,
++    "deductions": 250,
++    "totalSalary": 12500
++  },
++  {
++    "_id": "payroll-5",
++    "employee": "emp-5",
++    "month": 8,
++    "year": 2026,
++    "basicSalary": 22000,
++    "bonus": 2500,
++    "deductions": 500,
++    "totalSalary": 24000
++  }
++]
+\ No newline at end of file
+diff --git a/Backend/data/performance-data.json b/Backend/data/performance-data.json
+index fe51488..998fd59 100644
+--- a/Backend/data/performance-data.json
++++ b/Backend/data/performance-data.json
+@@ -1 +1,47 @@
+-[]
++[
++  {
++    "_id": "performance-1",
++    "employee": "emp-1",
++    "reviewDate": "2026-07-15",
++    "reviewer": "Mona Ibrahim",
++    "score": 4.7,
++    "goals": "Improve backend test coverage and document internal APIs.",
++    "comments": "Strong technical performance and reliable delivery."
++  },
++  {
++    "_id": "performance-2",
++    "employee": "emp-2",
++    "reviewDate": "2026-07-16",
++    "reviewer": "Mona Ibrahim",
++    "score": 4.4,
++    "goals": "Improve frontend accessibility and component reuse.",
++    "comments": "Good progress on Angular features and UI consistency."
++  },
++  {
++    "_id": "performance-3",
++    "employee": "emp-3",
++    "reviewDate": "2026-07-17",
++    "reviewer": "Mona Ibrahim",
++    "score": 4.2,
++    "goals": "Streamline onboarding and employee documentation.",
++    "comments": "Consistent HR support and good communication."
++  },
++  {
++    "_id": "performance-4",
++    "employee": "emp-4",
++    "reviewDate": "2026-07-18",
++    "reviewer": "Mona Ibrahim",
++    "score": 4.0,
++    "goals": "Reduce monthly reconciliation time and reporting errors.",
++    "comments": "Accurate work with room to improve processing speed."
++  },
++  {
++    "_id": "performance-5",
++    "employee": "emp-5",
++    "reviewDate": "2026-07-19",
++    "reviewer": "Admin User",
++    "score": 4.8,
++    "goals": "Improve project planning visibility across departments.",
++    "comments": "Excellent coordination and strong leadership."
++  }
++]
+\ No newline at end of file
+diff --git a/Backend/models/attendance-model.js b/Backend/models/attendance-model.js
+deleted file mode 100644
+index d250a20..0000000
+--- a/Backend/models/attendance-model.js
++++ /dev/null
+@@ -1,43 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const attendanceSchema = new mongoose.Schema(
+-  {
+-    employee: {
+-      type: mongoose.Schema.Types.ObjectId,
+-      ref: "Employee",
+-      required: [true, "Employee is required"],
+-    },
+-
+-    date: {
+-      type: Date,
+-      required: [true, "Attendance date is required"],
+-    },
+-
+-    checkIn: {
+-      type: String,
+-      required: [true, "Check in time is required"],
+-    },
+-
+-    checkOut: {
+-      type: String,
+-      required: [true, "Check out time is required"],
+-    },
+-
+-    status: {
+-      type: String,
+-      required: [true, "Attendance status is required"],
+-      enum: {
+-        values: ["present", "absent", "late", "leave"],
+-        message:
+-          "Status must be one of: present, absent, late, leave",
+-      },
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Attendance = mongoose.model("Attendance", attendanceSchema);
+-
+-module.exports = Attendance;
+\ No newline at end of file
+diff --git a/Backend/models/department-model.js b/Backend/models/department-model.js
+deleted file mode 100644
+index af6a8c0..0000000
+--- a/Backend/models/department-model.js
++++ /dev/null
+@@ -1,47 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const departmentSchema = new mongoose.Schema(
+-  {
+-    name: {
+-      type: String,
+-      required: [true, "Department name is required"],
+-      unique: true,
+-      trim: true,
+-      minlength: [2, "Department name must be at least 2 characters"],
+-      maxlength: [50, "Department name must be at most 50 characters"],
+-    },
+-
+-    description: {
+-      type: String,
+-      required: [true, "Department description is required"],
+-      trim: true,
+-      minlength: [10, "Description must be at least 10 characters"],
+-      maxlength: [300, "Description must be at most 300 characters"],
+-    },
+-
+-    manager: {
+-      type: String,
+-      required: [true, "Manager name is required"],
+-      trim: true,
+-    },
+-
+-    location: {
+-      type: String,
+-      required: [true, "Department location is required"],
+-      trim: true,
+-    },
+-
+-    employeesCount: {
+-      type: Number,
+-      default: 0,
+-      min: [0, "Employees count cannot be negative"],
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Department = mongoose.model("Department", departmentSchema);
+-
+-module.exports = Department;
+\ No newline at end of file
+diff --git a/Backend/models/employee-model.js b/Backend/models/employee-model.js
+deleted file mode 100644
+index 7410d76..0000000
+--- a/Backend/models/employee-model.js
++++ /dev/null
+@@ -1,79 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const employeeSchema = new mongoose.Schema(
+-  {
+-    firstName: {
+-      type: String,
+-      required: [true, "First name is required"],
+-      trim: true,
+-      minlength: [2, "First name must be at least 2 characters"],
+-      maxlength: [50, "First name must be at most 50 characters"],
+-    },
+-
+-    lastName: {
+-      type: String,
+-      required: [true, "Last name is required"],
+-      trim: true,
+-      minlength: [2, "Last name must be at least 2 characters"],
+-      maxlength: [50, "Last name must be at most 50 characters"],
+-    },
+-
+-    email: {
+-      type: String,
+-      required: [true, "Email is required"],
+-      unique: true,
+-      trim: true,
+-      lowercase: true,
+-    },
+-
+-    phone: {
+-      type: String,
+-      required: [true, "Phone number is required"],
+-      trim: true,
+-    },
+-
+-    jobTitle: {
+-      type: String,
+-      required: [true, "Job title is required"],
+-      trim: true,
+-    },
+-
+-    department: {
+-  type: String,
+-  required: [true, "Department is required"],
+-  trim: true,
+-},
+-
+-    salary: {
+-      type: Number,
+-      required: [true, "Salary is required"],
+-      min: [0, "Salary cannot be negative"],
+-    },
+-
+-    hireDate: {
+-      type: Date,
+-      required: [true, "Hire date is required"],
+-    },
+-
+-    status: {
+-      type: String,
+-      default: "active",
+-      enum: {
+-        values: ["active", "inactive"],
+-        message: "Status must be active or inactive",
+-      },
+-    },
+-
+-    imageURL: {
+-      type: String,
+-      trim: true,
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Employee = mongoose.model("Employee", employeeSchema);
+-
+-module.exports = Employee;
+\ No newline at end of file
+diff --git a/Backend/models/leave-model.js b/Backend/models/leave-model.js
+deleted file mode 100644
+index 28a5d2e..0000000
+--- a/Backend/models/leave-model.js
++++ /dev/null
+@@ -1,53 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const leaveSchema = new mongoose.Schema(
+-  {
+-    employee: {
+-      type: mongoose.Schema.Types.ObjectId,
+-      ref: "Employee",
+-      required: [true, "Employee is required"],
+-    },
+-
+-    leaveType: {
+-      type: String,
+-      required: [true, "Leave type is required"],
+-      enum: {
+-        values: ["annual", "sick", "unpaid", "maternity"],
+-        message:
+-          "Leave type must be one of: annual, sick, unpaid, maternity",
+-      },
+-    },
+-
+-    startDate: {
+-      type: Date,
+-      required: [true, "Start date is required"],
+-    },
+-
+-    endDate: {
+-      type: Date,
+-      required: [true, "End date is required"],
+-    },
+-
+-    reason: {
+-      type: String,
+-      required: [true, "Reason is required"],
+-      trim: true,
+-    },
+-
+-    status: {
+-      type: String,
+-      default: "pending",
+-      enum: {
+-        values: ["pending", "approved", "rejected"],
+-        message: "Status must be pending, approved or rejected",
+-      },
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Leave = mongoose.model("Leave", leaveSchema);
+-
+-module.exports = Leave;
+\ No newline at end of file
+diff --git a/Backend/models/notification-model.js b/Backend/models/notification-model.js
+deleted file mode 100644
+index 527cbcc..0000000
+--- a/Backend/models/notification-model.js
++++ /dev/null
+@@ -1,56 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const notificationSchema = new mongoose.Schema(
+-  {
+-    employee: {
+-      type: mongoose.Schema.Types.ObjectId,
+-      ref: "Employee",
+-      required: [true, "Employee is required"],
+-    },
+-
+-    title: {
+-      type: String,
+-      required: [true, "Notification title is required"],
+-      trim: true,
+-      minlength: [3, "Title must be at least 3 characters"],
+-      maxlength: [100, "Title must not exceed 100 characters"],
+-    },
+-
+-    message: {
+-      type: String,
+-      required: [true, "Notification message is required"],
+-      trim: true,
+-      minlength: [5, "Message must be at least 5 characters"],
+-      maxlength: [500, "Message must not exceed 500 characters"],
+-    },
+-
+-    type: {
+-      type: String,
+-      required: [true, "Notification type is required"],
+-      enum: {
+-        values: [
+-          "announcement",
+-          "leave",
+-          "attendance",
+-          "payroll",
+-          "performance",
+-          "general",
+-        ],
+-        message:
+-          "Type must be one of: announcement, leave, attendance, payroll, performance, general",
+-      },
+-    },
+-
+-    isRead: {
+-      type: Boolean,
+-      default: false,
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Notification = mongoose.model("Notification", notificationSchema);
+-
+-module.exports = Notification;
+\ No newline at end of file
+diff --git a/Backend/models/payroll-model.js b/Backend/models/payroll-model.js
+deleted file mode 100644
+index b7774aa..0000000
+--- a/Backend/models/payroll-model.js
++++ /dev/null
+@@ -1,55 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const payrollSchema = new mongoose.Schema(
+-  {
+-    employee: {
+-      type: mongoose.Schema.Types.ObjectId,
+-      ref: "Employee",
+-      required: [true, "Employee is required"],
+-    },
+-
+-    month: {
+-      type: Number,
+-      required: [true, "Month is required"],
+-      min: [1, "Month must be between 1 and 12"],
+-      max: [12, "Month must be between 1 and 12"],
+-    },
+-
+-    year: {
+-      type: Number,
+-      required: [true, "Year is required"],
+-      min: [2020, "Year is invalid"],
+-    },
+-
+-    basicSalary: {
+-      type: Number,
+-      required: [true, "Basic salary is required"],
+-      min: [0, "Basic salary cannot be negative"],
+-    },
+-
+-    bonus: {
+-      type: Number,
+-      default: 0,
+-      min: [0, "Bonus cannot be negative"],
+-    },
+-
+-    deductions: {
+-      type: Number,
+-      default: 0,
+-      min: [0, "Deductions cannot be negative"],
+-    },
+-
+-    totalSalary: {
+-      type: Number,
+-      required: [true, "Total salary is required"],
+-      min: [0, "Total salary cannot be negative"],
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Payroll = mongoose.model("Payroll", payrollSchema);
+-
+-module.exports = Payroll;
+\ No newline at end of file
+diff --git a/Backend/models/performance-model.js b/Backend/models/performance-model.js
+deleted file mode 100644
+index 5a81144..0000000
+--- a/Backend/models/performance-model.js
++++ /dev/null
+@@ -1,47 +0,0 @@
+-const mongoose = require("mongoose");
+-
+-const performanceSchema = new mongoose.Schema(
+-  {
+-    employee: {
+-      type: mongoose.Schema.Types.ObjectId,
+-      ref: "Employee",
+-      required: [true, "Employee is required"],
+-    },
+-
+-    reviewDate: {
+-      type: Date,
+-      required: [true, "Review date is required"],
+-    },
+-
+-    reviewer: {
+-      type: String,
+-      required: [true, "Reviewer is required"],
+-      trim: true,
+-    },
+-
+-    score: {
+-      type: Number,
+-      required: [true, "Performance score is required"],
+-    },
+-
+-    goals: {
+-      type: String,
+-      required: [true, "Goals are required"],
+-      trim: true,
+-      maxlength: [500, "Goals must not exceed 500 characters"],
+-    },
+-
+-    comments: {
+-      type: String,
+-      trim: true,
+-      maxlength: [1000, "Comments must not exceed 1000 characters"],
+-    },
+-  },
+-  {
+-    timestamps: true,
+-  }
+-);
+-
+-const Performance = mongoose.model("Performance", performanceSchema);
+-
+-module.exports = Performance;
+\ No newline at end of file
+diff --git a/Backend/models/user-model.js b/Backend/models/user-model.js
+deleted file mode 100644
+index d501a99..0000000
+--- a/Backend/models/user-model.js
++++ /dev/null
+@@ -1,71 +0,0 @@
+-const mongoose = require('mongoose');
+-const bcrypt = require('bcryptjs');
+-
+-const userSchema = new mongoose.Schema({
+-  firstName: {
+-    type: String,
+-    required: [true, 'First name is required'],
+-    trim: true,
+-    minlength: [2, 'First name must be at least 2 characters long'],
+-    maxlength: [50, 'First name must be at most 50 characters long']
+-  },
+-  lastName: {
+-    type: String,
+-    required: [true, 'Last name is required'],
+-    trim: true,
+-    minlength: [2, 'Last name must be at least 2 characters long'],
+-    maxlength: [50, 'Last name must be at most 50 characters long']
+-  },
+-  email: {
+-    type: String,
+-    required: [true, 'Email is required'],
+-    unique: true,
+-    trim: true,
+-    lowercase: true,
+-    match: [/\S+@\S+\.\S+/, 'Email is invalid']
+-  },
+-  password: {
+-    type: String,
+-    required: [true, 'Password is required'],
+-    minlength: [8, 'Password must be at least 8 characters long'],
+-    select: false // Exclude password from query results by default
+-  },
+-    role: {
+-    type: String,
+-    enum: {
+-      values: ['admin', 'employee'],
+-      message: 'Role is invalid'
+-    },
+-    default: 'employee'
+-  },
+-  phone: {
+-    type: String,
+-    trim: true,
+-    match: [/^\+?[0-9]\d{10,15}$/, 'Phone number is invalid']
+-  },
+-  imageURL: {
+-    type: String,
+-    trim: true,
+-    default: "default.jpg",
+-  },},
+-  {
+-    timestamps: true // Automatically add createdAt and updatedAt fields
+-  }
+-);
+-
+-// Pre-save middleware to hash the password before saving
+-userSchema.pre('save', async function () {
+-  if (this.isModified('password')) 
+-  {
+-    this.password = await bcrypt.hash(this.password, 10);}
+-//   const salt = await bcrypt.genSalt(12);
+-//   this.password = await bcrypt.hash(this.password, salt);
+-//   next();
+-});
+-
+-
+-const User = mongoose.model('User', userSchema);
+-
+-
+-
+-module.exports = User;
+\ No newline at end of file
+diff --git a/Backend/package-lock.json b/Backend/package-lock.json
+index a9b8f77..345f9c2 100644
+--- a/Backend/package-lock.json
++++ b/Backend/package-lock.json
+@@ -15,8 +15,6 @@
+         "express": "^5.2.1",
+         "jsonwebtoken": "^9.0.3",
+         "mime-types": "^3.0.2",
+-        "mongoo": "^0.3.5",
+-        "mongoose": "^9.7.3",
+         "multer": "^2.2.0"
+       },
+       "devDependencies": {
+@@ -29,15 +27,6 @@
+       "integrity": "sha512-UIrJB+AfKU0CCfbMoWrsGpd2D/hBpY/SGgFI6WRHPOwhaZ3g9rz1weiJ6eb6L9KgVyunT7s2tckcPkbHw+NzeA==",
+       "license": "MIT"
+     },
+-    "node_modules/@mongodb-js/saslprep": {
+-      "version": "1.4.12",
+-      "resolved": "https://registry.npmjs.org/@mongodb-js/saslprep/-/saslprep-1.4.12.tgz",
+-      "integrity": "sha512-QAfAMwNgnYxZ2C6D1HgeP7Gc4i/uvJRim415PCIL9ptRxWMNbWeLBYb2/9R4pGKny/s1FVu2JA2cxCUBUOggrA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "sparse-bitfield": "^3.0.3"
+-      }
+-    },
+     "node_modules/@standard-schema/spec": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/@standard-schema/spec/-/spec-1.1.0.tgz",
+@@ -1679,209 +1668,6 @@
+         "node": "*"
+       }
+     },
+-    "node_modules/mongodb-connection-string-url": {
+-      "version": "7.0.1",
+-      "resolved": "https://registry.npmjs.org/mongodb-connection-string-url/-/mongodb-connection-string-url-7.0.1.tgz",
+-      "integrity": "sha512-h0AZ9A7IDVwwHyMxmdMXKy+9oNlF0zFoahHiX3vQ8e3KFcSP3VmsmfvtRSuLPxmyv2vjIDxqty8smTgie/SNRQ==",
+-      "license": "Apache-2.0",
+-      "dependencies": {
+-        "@types/whatwg-url": "^13.0.0",
+-        "whatwg-url": "^14.1.0"
+-      },
+-      "engines": {
+-        "node": ">=20.19.0"
+-      }
+-    },
+-    "node_modules/mongoo": {
+-      "version": "0.3.5",
+-      "resolved": "https://registry.npmjs.org/mongoo/-/mongoo-0.3.5.tgz",
+-      "integrity": "sha512-utlo4rX+92PmsTLG52z8ePQlFotrFgplevlUEmq+FRmhbRU+XEJsRQirqktuy4ML5Gr/8v8muD0PIhYtDzgFpA==",
+-      "dependencies": {
+-        "async": "*",
+-        "bcrypt": "*",
+-        "fstk": "*",
+-        "jsbelt": "*",
+-        "locup": "*",
+-        "moment": "*",
+-        "mongodb": "*",
+-        "mongoose": "3.8.15",
+-        "optionall": "*",
+-        "pa1d": "*",
+-        "request": "*",
+-        "rol": "*",
+-        "solrdex": "*",
+-        "timely": "*",
+-        "underscore": "*"
+-      },
+-      "engines": {
+-        "node": ">= 0.10.0"
+-      }
+-    },
+-    "node_modules/mongoo/node_modules/bson": {
+-      "version": "0.2.9",
+-      "resolved": "https://registry.npmjs.org/bson/-/bson-0.2.9.tgz",
+-      "integrity": "sha512-wbebcD5nv4DjQ6P55YjGiLDRf2Lx1D1Nul6P/N6fV2TiXH/txXJuJNEE31wo6DgPXrOIgVY3E9DrWxt/SwJ8fw==",
+-      "deprecated": "Fixed a critical issue with BSON serialization documented in CVE-2019-2391, see https://bit.ly/2KcpXdo for more details",
+-      "hasInstallScript": true,
+-      "dependencies": {
+-        "nan": "~1.0.0"
+-      },
+-      "engines": {
+-        "node": ">=0.6.19"
+-      }
+-    },
+-    "node_modules/mongoo/node_modules/debug": {
+-      "version": "0.7.4",
+-      "resolved": "https://registry.npmjs.org/debug/-/debug-0.7.4.tgz",
+-      "integrity": "sha512-EohAb3+DSHSGx8carOSKJe8G0ayV5/i609OD0J2orCkuyae7SyZSz2aoLmQF2s0Pj5gITDebwPH7GFBlqOUQ1Q==",
+-      "engines": {
+-        "node": "*"
+-      }
+-    },
+-    "node_modules/mongoo/node_modules/mongodb": {
+-      "version": "1.4.7",
+-      "resolved": "https://registry.npmjs.org/mongodb/-/mongodb-1.4.7.tgz",
+-      "integrity": "sha512-apcCxE5Hubj0NJszK+UdA0uPZS/wFwBAL9mfJPBg1xsLR0KUWofDX3Mxy9oN2SOU6REiBmvRXDi6roX05aShWw==",
+-      "deprecated": "Please upgrade to 2.2.19 or higher",
+-      "dependencies": {
+-        "bson": "0.2.9"
+-      },
+-      "engines": {
+-        "node": ">=0.6.19"
+-      },
+-      "optionalDependencies": {
+-        "kerberos": "0.0.3",
+-        "readable-stream": "latest"
+-      }
+-    },
+-    "node_modules/mongoo/node_modules/mongoose": {
+-      "version": "3.8.15",
+-      "resolved": "https://registry.npmjs.org/mongoose/-/mongoose-3.8.15.tgz",
+-      "integrity": "sha512-H62a+Wj25IlYGPlY2ydo7FW6TfzJ2pwvX6snQqWnKL+k0FSLGsFKhFy9Z/wmEdMYBEaaicQPuHDNyayRh36NQg==",
+-      "dependencies": {
+-        "hooks": "0.2.1",
+-        "mongodb": "1.4.7",
+-        "mpath": "0.1.1",
+-        "mpromise": "0.4.3",
+-        "mquery": "0.8.0",
+-        "ms": "0.1.0",
+-        "muri": "0.3.1",
+-        "regexp-clone": "0.0.1",
+-        "sliced": "0.0.5"
+-      },
+-      "engines": {
+-        "node": ">=0.6.19"
+-      }
+-    },
+-    "node_modules/mongoo/node_modules/mpath": {
+-      "version": "0.1.1",
+-      "resolved": "https://registry.npmjs.org/mpath/-/mpath-0.1.1.tgz",
+-      "integrity": "sha512-q3I8htqDfa7EiDyY4Nxywpuov+uEqy6FWCNK8iJ1DxxyPvQpbIvdf7LQ5ms9iXrYhj3BJ/ETAaozIo/j6Z7DGA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/mongoo/node_modules/mquery": {
+-      "version": "0.8.0",
+-      "resolved": "https://registry.npmjs.org/mquery/-/mquery-0.8.0.tgz",
+-      "integrity": "sha512-d3EdbIUN8yMaux15lAb+APD1mwLlxatRclLwNlxmj28YJXiXJ22+HKkige/0BjHyql0dN8K7ok6+Uzg+eH307Q==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "debug": "0.7.4",
+-        "regexp-clone": "0.0.1",
+-        "sliced": "0.0.5"
+-      }
+-    },
+-    "node_modules/mongoo/node_modules/ms": {
+-      "version": "0.1.0",
+-      "resolved": "https://registry.npmjs.org/ms/-/ms-0.1.0.tgz",
+-      "integrity": "sha512-7uwYj3Xip4rOFpe5dDy+C25Ad0nAXkT4yAVMSpuh1UYR2Z7tAswSh4wb/HghRa533wofFUsvg54OQ90Mu1dCJg==",
+-      "engines": {
+-        "node": "*"
+-      }
+-    },
+-    "node_modules/mongoose": {
+-      "version": "9.7.3",
+-      "resolved": "https://registry.npmjs.org/mongoose/-/mongoose-9.7.3.tgz",
+-      "integrity": "sha512-9DsD4sq0tL9IKyfttZ6qn74KXBcD4lxDTzGXoAeOLMnDFFp1gqc5oc4s2BiMPbetJrLwvVylfyR4cqLst2pasQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@standard-schema/spec": "^1.1.0",
+-        "kareem": "3.3.0",
+-        "mongodb": "~7.2",
+-        "mpath": "0.9.0",
+-        "mquery": "6.0.0",
+-        "ms": "2.1.3",
+-        "sift": "17.1.3"
+-      },
+-      "engines": {
+-        "node": ">=20.19.0"
+-      },
+-      "funding": {
+-        "type": "opencollective",
+-        "url": "https://opencollective.com/mongoose"
+-      }
+-    },
+-    "node_modules/mongoose/node_modules/kerberos": {
+-      "version": "7.0.0",
+-      "resolved": "https://registry.npmjs.org/kerberos/-/kerberos-7.0.0.tgz",
+-      "integrity": "sha512-Q8yUNeCM5fSXkURaa05WugXFsH6c57hDHDmsupMFCPaQEPym9FGwFp/2XSTcMuLldtEeBOsQ/9VGQ55lfHTT3Q==",
+-      "hasInstallScript": true,
+-      "license": "Apache-2.0",
+-      "optional": true,
+-      "peer": true,
+-      "dependencies": {
+-        "node-addon-api": "^8.5.0",
+-        "prebuild-install": "^7.1.3"
+-      },
+-      "engines": {
+-        "node": ">=20.19.0"
+-      }
+-    },
+-    "node_modules/mongoose/node_modules/mongodb": {
+-      "version": "7.2.0",
+-      "resolved": "https://registry.npmjs.org/mongodb/-/mongodb-7.2.0.tgz",
+-      "integrity": "sha512-F/2+BMZtLVhY30ioZp0dAmZ+IRZMBqI+nrv6t5+9/1AIwCa8sMRC3jBf81lpxMhnZgqq8CoUD503Z1oZWq1/sw==",
+-      "license": "Apache-2.0",
+-      "dependencies": {
+-        "@mongodb-js/saslprep": "^1.3.0",
+-        "bson": "^7.2.0",
+-        "mongodb-connection-string-url": "^7.0.0"
+-      },
+-      "engines": {
+-        "node": ">=20.19.0"
+-      },
+-      "peerDependencies": {
+-        "@aws-sdk/credential-providers": "^3.806.0",
+-        "@mongodb-js/zstd": "^7.0.0",
+-        "gcp-metadata": "^7.0.1",
+-        "kerberos": "^7.0.0",
+-        "mongodb-client-encryption": ">=7.0.0 <7.1.0",
+-        "snappy": "^7.3.2",
+-        "socks": "^2.8.6"
+-      },
+-      "peerDependenciesMeta": {
+-        "@aws-sdk/credential-providers": {
+-          "optional": true
+-        },
+-        "@mongodb-js/zstd": {
+-          "optional": true
+-        },
+-        "gcp-metadata": {
+-          "optional": true
+-        },
+-        "kerberos": {
+-          "optional": true
+-        },
+-        "mongodb-client-encryption": {
+-          "optional": true
+-        },
+-        "snappy": {
+-          "optional": true
+-        },
+-        "socks": {
+-          "optional": true
+-        }
+-      }
+-    },
+     "node_modules/mpath": {
+       "version": "0.9.0",
+       "resolved": "https://registry.npmjs.org/mpath/-/mpath-0.9.0.tgz",
+@@ -1975,13 +1761,6 @@
+         "node": ">= 0.6"
+       }
+     },
+-    "node_modules/muri": {
+-      "version": "0.3.1",
+-      "resolved": "https://registry.npmjs.org/muri/-/muri-0.3.1.tgz",
+-      "integrity": "sha512-Mv8Tz5IW0K5cDsWqr4fXVoGSxc2BM3BFag3TdhGkCGPPcYtYBDO2We0YUTruAhszG9NOZjXkgyB5C36PnT0q1A==",
+-      "deprecated": "This package is no longer supported. Please use https://www.npmjs.com/package/mongodb-connection-string-url",
+-      "license": "MIT"
+-    },
+     "node_modules/nan": {
+       "version": "1.0.0",
+       "resolved": "https://registry.npmjs.org/nan/-/nan-1.0.0.tgz",
+diff --git a/Backend/package.json b/Backend/package.json
+index 7986488..22cc103 100644
+--- a/Backend/package.json
++++ b/Backend/package.json
+@@ -19,8 +19,6 @@
+     "express": "^5.2.1",
+     "jsonwebtoken": "^9.0.3",
+     "mime-types": "^3.0.2",
+-    "mongoo": "^0.3.5",
+-    "mongoose": "^9.7.3",
+     "multer": "^2.2.0"
+   }
+ }
+diff --git a/README.md b/README.md
+index d2dc519..df46a77 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ A modern **full-stack Employee Management System** that streamlines HR operations by providing secure employee management, authentication, profile handling, and responsive dashboards.
+ 
+-Built with **Angular (SSR)**, **Node.js**, **Express.js**, and **MongoDB**, the application focuses on performance, scalability, and clean architecture.
++Built with **Angular (SSR)**, **Node.js**, **Express.js** the application focuses on performance, scalability, and clean architecture.
+ 
+ ---
+ 
+@@ -61,7 +61,6 @@ Built with **Angular (SSR)**, **Node.js**, **Express.js**, and **MongoDB**, the
+ 
+ #### Backend
+ 
+-* Mongoose schema validation
+ * Duplicate email detection
+ * Request validation
+ * Centralized error handling
+@@ -95,8 +94,6 @@ Built with **Angular (SSR)**, **Node.js**, **Express.js**, and **MongoDB**, the
+ 
+ * Node.js
+ * Express.js
+-* MongoDB
+-* Mongoose ODM
+ * Multer
+ * JSON Web Tokens (JWT)
+ * bcrypt
+@@ -168,7 +165,6 @@ Make sure you have installed:
+ 
+ * Node.js
+ * npm
+-* MongoDB (Local or Atlas)
+ * Angular CLI
+ 
+ ---
+@@ -196,8 +192,6 @@ Create a `.env` file:
+ ```env
+ PORT=5000
+ 
+-MONGO_URI=your_mongodb_connection_string
+-
+ JWT_SECRET=your_secret_key
+ ```
+ 

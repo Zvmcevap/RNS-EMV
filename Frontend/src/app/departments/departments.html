@@ -1,82 +1,52 @@
 <div class="page">
+  <div class="header">
+    <h2>Departments</h2>
 
-    <div class="header">
+    <button routerLink="/departments/add">Add Department</button>
+  </div>
 
-        <h2>Departments</h2>
+  @if (loading) {
+    <p>Loading...</p>
+  }
 
-        <button routerLink="/departments/add">
-            Add Department
-        </button>
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
 
-    </div>
-
-    @if(loading){
-
-        <p>Loading...</p>
-
-    }
-
-    @if(error){
-
-        <p class="error">{{error}}</p>
-
-    }
-
-    @if(!loading){
-
+  @if (!loading) {
     <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Manager</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
 
-        <thead>
+      <tbody>
+        @for (department of departments; track department._id) {
+          <tr>
+            <td>{{ department.name }}</td>
 
-            <tr>
+            <td>{{ department.description }}</td>
 
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manager</th>
-                <th>Actions</th>
+            <td>{{ department.manager }}</td>
 
-            </tr>
+            <td>
+              <div class="action-group">
+                <button class="ghost-btn" [routerLink]="['/departments/edit', department._id]">
+                  Edit
+                </button>
 
-        </thead>
-
-        <tbody>
-
-            @for(department of departments; track department._id){
-
-            <tr>
-
-                <td>{{department.name}}</td>
-
-                <td>{{department.description}}</td>
-
-                <td>{{department.manager}}</td>
-
-                <td>
-
-                    <button
-                        [routerLink]="['/departments/edit', department._id]">
-
-                        Edit
-
-                    </button>
-
-                    <button
-                        (click)="deleteDepartment(department._id)">
-
-                        Delete
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            }
-
-        </tbody>
-
+                <button class="danger-btn" (click)="deleteDepartment(department._id)">
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
     </table>
-
-    }
-
+  }
 </div>
